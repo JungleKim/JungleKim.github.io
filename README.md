@@ -44,8 +44,8 @@ $ bundle exec jekyll serve
  - name: ex) junglekim
  - title: ex) 김정근
  - image: ex) static/authors/XXX.jpg 직접 넣으세요
- - email: ex) snorlax.jungle@gmail.com
- - facebook: ex) https://www.facebook.com/wjdrms0413
+ - email: ex) xxxx@gmail.com
+ - facebook: ex) https://www.facebook.com/xxxx
  - github: ex) https://github.com/junglekim
 3. 내용은 필요없음
 
@@ -67,14 +67,3 @@ $ bundle exec jekyll serve
 [gfm]: https://guides.github.com/features/mastering-markdown/
 [kramdown]: http://kramdown.gettalong.org
 [rouge]: http://rouge.jneen.net
-
-
-## License
-
-This software is licensed under the [Apache 2 license](LICENSE.txt), quoted below.
-
-Copyright 2017 JungleKim. <http://JungleKim.github.io>
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
