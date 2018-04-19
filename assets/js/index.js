@@ -1,7 +1,6 @@
 /* global window */
 (function (window, document, $) {
     'use strict';
-
     $(function () {
         // by default, blog menu is active unless page
         var activeMenu = $('#menu > li.active');
@@ -14,27 +13,37 @@
             }
         }
 
+
+        // 뒤로가기
+        $('#link-back').click(function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            if (document.referrer && document.referrer.indexOf("junglekim.github.io") != -1) {
+              window.history.back();
+            } else {
+              window.location.href = "https://junglekim.github.io/";
+            }
+        });
+        //
+
+
+        // 모바일 토글
+        $('#search-toggle').click(function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            window.location.href = "/search/";
+        });
+
         $('#menu-toggle').click(function (e) {
             e.stopPropagation();
             e.preventDefault();
             if ($('#menu').is(':visible')) {
                 $('#menu').hide();
             } else {
-                $('#search').hide();
                 $('#menu').show();
             }
         });
-
-        $('#search-toggle').click(function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            if ($('#search').is(':visible')) {
-                $('#search').hide();
-            } else {
-                $('#menu').hide();
-                $('#search').show();
-            }
-        });
+        //
 
         $(window).scroll(function () {
             var viewportTop = $(window).scrollTop();
@@ -43,35 +52,18 @@
                 var footerTop = $('#footer').offset().top;
                 if ((footerTop <= viewportBottom) && (footerTop >= viewportTop)) {
                     // footer is visible: static above footer
-                    $('#back-to-top').addClass('static').show();
+                    $('#back-to-top').css({ display: 'block' });
                 } else {
                     // footer is invisible: fixed on bottom-right of viewport
-                    $('#back-to-top').removeClass('static').show();
+                    $('#back-to-top').css({ display: 'none' });
                 }
             } else {
                 // already top: hide
-                $('#back-to-top').hide();
+                $('#back-to-top').css({ display: 'none' });
             }
         });
 
-        // show/hide cover videos by browser
-        var coverVideos = $('#cover video');
-        if (/Mobi/.test(window.navigator.userAgent)) {
-            coverVideos.remove();
-        } else {
-            coverVideos.click(function (e) {
-                var v = e.target;
-                if (v.paused) {
-                    v.play();
-                } else {
-                    v.pause();
-                }
-            }).each(function (i, v) {
-                v.play();
-            }).show();
-        }
-
-        // turn img alt into caption
+        // 이미지 크게보기
         $('#post-content > p > img[alt]').replaceWith(function () {
             return '<figure>'
                 + '<a href="' + $(this).attr('src') + '" class="mg-link">'
@@ -79,10 +71,11 @@
                 + '<figcaption class="caption">' + $(this).attr('alt') + '</figcaption>'
                 + '</figure>';
         });
-        // and connect magnific popup image viewer
+
         $('#post-content .mg-link').magnificPopup({
             type: 'image',
             closeOnContentClick: true
         });
+        //
     });
 }(window, window.document, window.jQuery));

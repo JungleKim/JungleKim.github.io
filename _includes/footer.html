@@ -1,8 +1,12 @@
 <div id="footer" class="container-fluid">
+    <p id="copyright">
+        <a href="//JungleKim.github.io">Copyright &copy; JungleKim</a>
+        All rights reserved.
+    </p>
     <ul id="links">
-        {% if site.github_url %}
+        {% if site.github %}
         <li>
-            <a id="link-github" href="http://github.com/{{ site.github_url.username }}" target="_blank">
+            <a id="link-github" href="http://github.com/{{ site.github.username }}" target="_blank">
                 <span class="sr-only">github</span>
             </a>
         </li>
@@ -27,13 +31,4 @@
             </a>
         </li>
     </ul>
-    <ul id="footer-menu">
-        <li><a href="//www.kakaocorp.com">Kakao</a></li>
-        <li><a href="//www.kakaocorp.com/recruit/currentOpportunities">Jobs</a></li>
-        <li><a href="//privacy.kakaocorp.com">Privacy</a></li>
-    </ul>
-    <p id="copyright">
-        <a href="//www.kakaocorp.com">Copyright &copy; Kakao Corp.</a>
-        All rights reserved.
-    </p>
 </div><!--#footer-->

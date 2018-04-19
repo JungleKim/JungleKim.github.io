@@ -1,0 +1,171 @@
+/* responsive images - mobile(2x) */
+
+@media (-webkit-min-device-pixel-ratio: 2) {
+    #logo {
+        background-image: url(../images/mo/tech_logo@2x.png);
+    }
+
+    #menu-toggle {
+        background-image: url(../images/mo/icon_menu@2x.png);
+    }
+
+    #search-toggle {
+        background-image: url(../images/mo/icon_search@2x.png);
+    }
+
+    #search > input {
+        background-image: url(../images/mo/icon_search@2x.png);
+    }
+
+    #back-to-top {
+        background-image: url(../images/mo/icon_uarrow@2x.png);
+    }
+
+    #page-prev {
+        background-image: url(../images/mo/icon_larrow@2x.png);
+    }
+
+    #page-next {
+        background-image: url(../images/mo/icon_rarrow@2x.png);
+    }
+
+    #link-github {
+        background-image: url(../images/mo/icon_git@2x.png);
+    }
+
+    #link-facebook {
+        background-image: url(../images/mo/icon_face@2x.png);
+    }
+
+    #link-twitter {
+        background-image: url(../images/mo/icon_twit@2x.png);
+    }
+
+    #link-rss {
+        background-image: url(../images/mo/icon_rss@2x.png);
+    }
+
+    #link-back {
+        background-image: url(../images/mo/icon_larrow@2x.png);
+    }
+
+    #kakao-link-btn {
+        background-image: url(../images/mo/share_talk@2x.png);
+        background-size: 22px 22px;
+    }
+
+    #share-kakaostory {
+        background-image: url(../images/mo/share_story@2x.png);
+        background-size: 22px 22px;
+    }
+
+    #share-facebook {
+        background-image: url(../images/mo/share_face@2x.png);
+    }
+
+    #share-twitter {
+        background-image: url(../images/mo/share_twit@2x.png);
+    }
+
+    #share-google {
+        background-image: url(../images/mo/share_goo@2x.png);
+    }
+
+    #post-list .author-image {
+        background-image: url(../images/mo/default_pic_s@2x.png);
+    }
+
+    #author-image {
+        background-image: url(../images/mo/default_pic_s@2x.png);
+    }
+
+    #cover-author-image {
+        background-image: url(../images/mo/default_pic_l@3x.png);
+    }
+}
+
+/* responsive images - mobile(3x) */
+
+@media (-webkit-min-device-pixel-ratio: 3) {
+    #logo {
+        background-image: url(../images/mo/tech_logo@3x.png);
+    }
+
+    #menu-toggle {
+        background-image: url(../images/mo/icon_menu@3x.png);
+    }
+
+    #search-toggle {
+        background-image: url(../images/mo/icon_search@3x.png);
+    }
+
+    #search > input {
+        background-image: url(../images/mo/icon_search@3x.png);
+    }
+
+    #back-to-top {
+        background-image: url(../images/mo/icon_uarrow@3x.png);
+    }
+
+    #page-prev {
+        background-image: url(../images/mo/icon_larrow@3x.png);
+    }
+
+    #page-next {
+        background-image: url(../images/mo/icon_rarrow@3x.png);
+    }
+
+    #link-github {
+        background-image: url(../images/mo/icon_git@3x.png);
+    }
+
+    #link-facebook {
+        background-image: url(../images/mo/icon_face@3x.png);
+    }
+
+    #link-twitter {
+        background-image: url(../images/mo/icon_twit@3x.png);
+    }
+
+    #link-rss {
+        background-image: url(../images/mo/icon_rss@3x.png);
+    }
+
+    #link-back {
+        background-image: url(../images/mo/icon_larrow@3x.png);
+    }
+
+    #kakao-link-btn {
+        background-image: url(../images/mo/share_talk@3x.png);
+        background-size: 22px 22px;
+    }
+
+    #share-kakaostory {
+        background-image: url(../images/mo/share_story@3x.png);
+        background-size: 22px 22px;
+    }
+
+    #share-facebook {
+        background-image: url(../images/mo/share_face@3x.png);
+    }
+
+    #share-twitter {
+        background-image: url(../images/mo/share_twit@3x.png);
+    }
+
+    #share-google {
+        background-image: url(../images/mo/share_goo@3x.png);
+    }
+
+    #post-list .author-image {
+        background-image: url(../images/mo/default_pic_s@3x.png);
+    }
+
+    #author-image {
+        background-image: url(../images/mo/default_pic_s@3x.png);
+    }
+
+    #cover-author-image {
+        background-image: url(../images/mo/default_pic_l@3x.png);
+    }
+}

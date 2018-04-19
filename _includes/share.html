@@ -1,12 +1,5 @@
 {% assign abs_page_url = site.url | append: site.baseurl | append: page.url %}
 <ul id="shares">
-    <li class="stalk" style="display:none">
-        <a id="kakao-link-btn" href="javascript:;"></a>
-    </li>
-    <li>
-        <a id="share-kakaostory" href="javascript:shareStory('{{ abs_page_url }}');"></a>
-    </li>
-
     {% if site.facebook %}
     <li>
         <a id="share-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ abs_page_url }}"

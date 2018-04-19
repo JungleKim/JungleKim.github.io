@@ -1,8 +1,8 @@
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no"/>
-{% if page.layout == 'post' or page.layout == 'page' %}
-{% assign meta_title = page.title %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% if page.layout == 'post' %}
+{% assign meta_title = page.title | append: ' - ' | append: site.title %}
 {% assign meta_author = page.author | default: site.author %}
 {% assign meta_description = page.excerpt | strip_html | truncatewords: 75 %}
 {% assign meta_url = site.url | append: site.baseurl | append: page.url %}
@@ -53,15 +53,19 @@
 {% endif %}
 <link href="{{ site.url }}/rss/" rel="alternate" type="application/rss+xml" title="RSS"/>
 <link href="{{ site.asset_url }}/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
-<link href="{{ site.asset_url }}/apple-touch-icon.png" rel="apple-touch-icon" type="image/png"/>
-<link href="{{ site.asset_url }}/apple-touch-icon.png" rel="apple-touch-icon-precomposed" type="image/png"/>
+<!--link href="{{ site.asset_url }}/apple-touch-icon.png" rel="apple-touch-icon" type="image/png"/-->
+<!--link href="{{ site.asset_url }}/apple-touch-icon.png" rel="apple-touch-icon-precomposed" type="image/png"/-->
 <link href="{{ site.asset_url }}/lib/normalize.css" rel="stylesheet" type="text/css"/>
 <link href="{{ site.asset_url }}/css/monokai.css" rel="stylesheet" type="text/css"/> 
 <link href="{{ site.asset_url }}/lib/magnific-popup.min.css" rel="stylesheet" type="text/css"/>
-<link href="{{ site.asset_url }}/fonts/Kakao.css" rel="stylesheet" type="text/css"/> 
-<link href="{{ site.asset_url }}/css/screen.css" rel="stylesheet" type="text/css"/>
+<link href="{{ site.asset_url }}/css/common.css" rel="stylesheet" type="text/css"/>
+<link href="{{ site.asset_url }}/css/desktop.css" rel="stylesheet" type="text/css"/>
+<link href="{{ site.asset_url }}/css/mobile.css" rel="stylesheet" type="text/css"/>
+<link href="{{ site.asset_url }}/css/retina.css" rel="stylesheet" type="text/css"/>
+<link href='{{ site.asset_url }}/css/spoqa.css' rel='stylesheet' type='text/css' media='none' onload="this.media='all';">
+
 <script>
-    if (window.location.host.indexOf('tech.kakao.com') > -1 && window.location.protocol == "https:"){
-        window.location = window.location.toString().replace(/^https:/, "http:");
-    }
+//    if (window.location.host.indexOf('junglekim.github.io') > -1 && window.location.protocol == "https:"){
+//        window.location = window.location.toString().replace(/^https:/, "http:");
+//    }
 </script>

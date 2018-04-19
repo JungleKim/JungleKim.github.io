@@ -1,13 +1,14 @@
-title: kakao 기술 블로그
-email: opensource@kakaocorp.com
+title: 정글북
+email: snorlax.jungle@gmail.com
+introduce: 정근이의 블로그
 description: |
-  Connect Everything 새로운 연결, 새로운 세상.
-  연결의 혁신으로 세상은 더욱 가깝고 새로워진다고 카카오는 믿습니다.
+  정근이의 블로그입니다.
+keywords: '기술블로그 기술 블로그 프로그래밍 programming 개발블로그'
 baseurl: ''
-url: 'http://tech.kakao.com'
+url: 'https://junglekim.github.io'
 timezone: Asia/Seoul 
 
-repository: kakao/kakao.github.io
+repository: junglekim/junglekim.github.io
 
 permalink: /:year/:month/:day/:title/
 
@@ -19,7 +20,7 @@ krandown:
   input: GFM
   highlighter: rouge
 
-plugins:
+gems:
   - jekyll-paginate
 
 paginate: 5
@@ -48,21 +49,18 @@ defaults:
 exclude: [README.md, Gemfile, Gemfile.lock]
 
 keep_files: [assets, files]
-github: [metadata]
-# iolo's custom
-author: opensource@kakaocorp.com
+
+author: snorlax.jungle@gmail.com
 image: '/assets/images/default_blog_cover.jpg'
 asset_url: /assets
-#asset_url: //meta-kage.kakaocdn.net/dn/osa/blog/assets
-#asset_url: //t1.daumcdn.net/osa/blog/assets
 google_analytics:
-  ua: 'UA-72007721-1'
+  ua: 'UA-102648745-1'
 facebook:
-  app_id: '1204347326263800'
-  username: nkakao
-twitter:
-  username: kakaodev
-google_plus:
-  username: kakaodev
-github_url:
-  username: kakao
+  app_id: '1451463024939876'
+  username: wjdrms0413
+#twitter:
+#  username: junglekim 
+#google_plus:
+#  username: junglekim
+github:
+  username: junglekim 

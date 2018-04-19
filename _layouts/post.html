@@ -2,10 +2,9 @@
 layout: default
 ---
 <div id="navbar" class="container">
-    <h5><a id="link-back" href="/">Back to Posts</a></h5>
+    <h5><a id="link-back">뒤로가기</a></h5>
     {% include share.html page=page %}
 </div>
-
 <div id="cover" class="container"
      {% if page.image %}style="background-image: url({{ page.image }});"{% endif %}>
     <div>
@@ -30,35 +29,49 @@ layout: default
             </div>
             <p id="author-name">{{ author.name }}</p>
         </a>
-        <p id="post-date">{{ page.date | date: '%Y-%m-%d %H:%M' }}</p>
-        <a id="post-more" href="{{ author.url }}">
-            <span>Read more posts by this author</span>
-        </a>
+        <p id="post-date">{{ page.date | date: '%Y-%m-%d' }}</p>
+        <!--글쓴이가 나 한명이라서 봉인-->
+        <!--a id="post-more" href="{{ author.url }}">
+            <span>더 많은 글보기</span>
+        </a-->
     </div>
 </div>
 
+{% assign prev = page.previous %}
+{% assign next = page.next %}
+{% if prev or next %}
 <div id="post-links" class="container">
-    {% assign prev = page.previous %}
-    {% if prev %}
-        <div id="post-prev"
-             {% if prev.image %}style="background-image: url({{ prev.image }});"{% endif %}>
+    {% if prev %}</a>
+        <div
+            id="post-prev"
+            {% if prev.image %}style="background-image: url({{ prev.image }});"{% endif %}
+        >
             <div>
-                <h3><a href="{{ prev.url }}">{{ prev.title }}</a></h3>
-                <p>YOU MIGHT ENJOY</p>
+                <h3>
+                    <a href="{{ prev.url }}">{{ prev.title }}</a></h3>
+                <p>이전글보기</p>
             </div>
         </div>
     {% endif %}
-    {% assign next = page.next %}
     {% if next %}
-        <div id="post-next"
-             {% if next.image %}style="background-image: url({{ next.image }});"{% endif %}>
+        <div
+            id="post-next"
+            {% if next.image %}style="background-image: url({{ next.image }});"{% endif %}
+        >
             <div>
                 <h3><a href="{{ next.url }}">{{ next.title }}</a></h3>
-                <p>NEXT POST</p>
+                <p>다음글보기</p>
             </div>
         </div>
     {% endif %}
 </div>
+{% endif %}
+
+{% if site.facebook %}
+<div id="comments" class="container">
+    {% include facebook_comment.html %}
+</div>
+{% endif %}
 
 <div id="lightbox">
     <div id="lightbox-image"></div>
