@@ -1,4 +1,4 @@
-junglekim.github.io
+jungle.kim
 ==============
 
 ### 시작하기
