@@ -1,11 +1,10 @@
 title: 정글북
 email: snorlax.jungle@gmail.com
 introduce: 정근이의 블로그
-description: |
-  정근이의 블로그입니다.
+description: 정근이의 블로그입니다.
 keywords: '기술블로그 기술 블로그 프로그래밍 programming 개발블로그'
 baseurl: ''
-url: 'https://junglekim.github.io'
+url: 'https://jungle.kim'
 timezone: Asia/Seoul 
 
 repository: junglekim/junglekim.github.io
