@@ -1,4 +1,270 @@
 ---
 layout: post
-title: oauth
+author: junglekim
+title: OAuth 정리
+tags: [oauth]
 ---
+# OAuth 정리
+
+최근 회사에서 `OAuth 2.0`을 위한 인증서버를 구축해야 할 일이 있었습니다.
+저 같은 경우 `OAuth 2.0` 사용한 로그인 혹은 리소스에 접근하는 건 많이 경험해봤지만 인증서버 개발은 경험해본 적이 없었습니다.
+그래서 인증서버를 구축하기 전 [RFC 6749 - The OAuth 2.0 Authorization Framework](https://tools.ietf.org/html/rfc6749) 문서를 읽었습니다.
+개인적으로 문서를 읽고 나서 의사소통할 때 혹은 단순히 개발할 때도 많은 도움이 됐습니다.
+
+아래 내용은 RFC 문서를 번역, 요약한 글에 개인적 경험이 포함된 글입니다.
+본 글은 OAuth 2.0에 대해서만 다룹니다.
+
+---
+
+## OAuth란?
+`OAuth`는 외부서비스에서 리소스를 사용하려 할 때, 계정과 암호의 노출 없이 권한을 인증할 수 있는 표준(Open Standard)입니다.
+`OAuth`는 2006년 트위터 개발자들과 Gnolia 개발자들의 논의를 시작으로 탄생했습니다.
+
+`OAuth`가 탄생하기 전 회사들은 각각 인증방식을 구현했습니다.
+기존에 파편화되어 있던 인증방식들을 통합한 표준이라고 할 수 있습니다.
+
+`OAuth 1.0a`와 `OAuth 2.0` 두 가지가 존재하고 최근에는 `OAuth 2.0`을 더 많이 사용합니다.
+
+``` 
+## 과거에 사용하던 인증방식 ##
+- 구글의 AuthSub
+- AOL의 OpenAuth
+- 야후의 BBAuth
+- 아마존의 웹서비스 API
+등등
+```
+```
+## 참고 ##
+OpenID와 OAuth는 인증이라는 면에서는 같습니다.
+하지만, OpenID의 목적은 로그인 OAuth의 목적은 권한허가라는 점에서 차이점이 있습니다.
+```
+
+## OAuth 2.0의 Roles
+`OAuth 2.0`의 설명에 앞서 몇 가지 Role을 알아야 합니다.
+`OAuth 2.0`에는 총 4가지의 Role이 있습니다.
+
+- `resource owner` - (리소스 소유자)
+	- 리소스 접근을 허가해주는 엔티티 (주로 사용자, 사람)
+- `resource server` - (리소스 서버)
+	- 리소스를 제공해주는 API 서버 (ex:  Facebook Graph API)
+- `client` - (클라이언트)
+	- `resource owner`의 승인을 얻어 `resource server`에 리소스 요청을 수행하는 응용프로그램
+	- 어플리케이션 구성의 client와는 상관없음
+- `authorization server` - (인증서버)
+	- 인증과 권한 취득에 성공했을 때 토큰을 발급해주는 서버
+
+## OAuth 2.0 Protocol Flow
+`OAuth 2.0`의 Protocol Flow입니다.
+아래의 Protocol을 구현하면 `OAuth 2.0`으로 부를 수 있습니다.
+그렇다고 반드시 아래의 흐름을 다 구현해야 하는 것은 아닙니다.
+이후에 나올 `OAuth 2.0의 권한 획득 방법` 파트를 보시면 아시겠지만 로직 상 약간의 생략이 있더라도 `OAuth 2.0`이라 부를 수 있습니다.
+
+![OAuth2 Protocol Flow](/files/posts/oauth/protocol-flow.png)
+> (A). 클라이언트는 리소스 소유자에게 권한을 요청한다.
+> (B). 리소스 소유자는 클라이언트에 권한을 부여한다.
+> (C). 클라이언트는 부여된 권한을 인증서버에 전달한다.
+> (D). 인증서버는 클라이언트에 액세스토큰을 전달한다.
+> (E). 클라이언트는 리소스 서버에 액세스토큰을 전달하고 리소스를 요청한다.
+> (F). 리소스 서버는 클라이언트에 리소스를 전달한다.
+
+## OAuth 2.0 Protocol Endpoint
+`OAuth 2.0`은 인증 과정 중에 총 3개의 Endpoint를 사용합니다.
+인증서버에 2개와 클라이언트에서 1개를 사용합니다.
+Endpoint의 종류와 각각의 역할을 알아보겠습니다.
+
+-> 인증서버
+- `Authorization Endpoint`
+- `Token Endpoint`
+
+-> 클라이언트
+- `Redirection Endpoint`
+
+#### Authorization Endpoint
+- 사용자의 신원을 확인하고 권한을 허가받기 위해 사용한다.
+- 사용자의 신원을 확인하는 방법은 별도로 명시되어 있지 않다. (주로 세션 사용)
+
+#### Token Endpoint
+- `Authorization Grant` 혹은 `Refresh Token`을 토큰으로 교환할 때 사용한다.
+- 인증서버는 `Token Endpoint`에서 토큰을 발급하기 전 클라이언트 인증을 진행해야 한다.
+
+#### Redirection Endpoint
+-  `Authorization Endpoint`의 결과를 클라이언트로 전송할 때 사용한다.
+-  `Authorization Endpoint`로 넘긴 값 혹은 미리 등록해둔 값을 통해 Redirect 한다.
+
+## OAuth 2.0 클라이언트
+`OAuth 2.0`는 클라이언트를 미리 등록해야 사용할 수 있습니다.
+RFC 문서에는 쿨라이언트의 최소조건만 명시하고 있습니다.
+클라이언트 등록 시 인증서버와 직접적인 통신 없이 간접적으로 등록할 수 있습니다. (아래 예시 이미지 참고)
+
+-> 클라이언트의 최소조건
+- 클라이언트 타입을 지정한다.
+- Redirect URI를 지정한다.
+- 인증서버가 요구하는 기타정보를 입력한다. (이름, web 사이트, 설명, 이미지 등)
+
+#### 클라이언트 타입
+`OAuth 2.0`에서는 두 가지 타입의 클라이언트를 정의하고 있습니다.
+타입은 인증의 기밀성을 유지할 수 있냐 없느냐로 나뉩니다.
+인증의 기밀성이란 인증의 결과를 노출하지 않거나 노출하더라도 식별할 수 없는 형태로 유지되는 것을 말합니다.
+
+- 기밀 클라이언트 (Confidential)
+	- 인증의 기밀성을 유지할 수 있는 클라이언트 (ex: Web Server Application)
+- 공공 클라이언트 (Public)
+	- 인증의 기밀성을 유지할 수 없는 클라이언트 (ex: Native App Application, Browser)
+
+#### 클라이언트 ID
+- 인증서버는 클라이언트 등록 시 고유성을 가지는 ID를 발행한다.
+- 클라이언트 ID는 외부에 노출되기 때문에 클라이언트 인증 시 클라이언트 ID만으로 인증을 진행하면 안 된다.
+
+#### 클라이언트 암호
+- 클라이언트 인증 시 사용하는 인증수단
+- 클라이언트 암호를 발급하는 방식과 클라이언트 시크릿을 발급하는 방식 두 가지가 있다.
+
+-> 암호 발급방식
+- 인증서버에서 클라이언트 인증을 위한 임의의 문자열을 발급합니다.
+- 인증서버는 클라이언트 인증을 위해 Http Basic 인증 방식을 지원해야한다.
+```
+Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
+```
+
+-> 클라이언트 시크릿을 발급하는 방식
+- 위의 암호 대신 `client_id`와 `client_secret`을 request body에 넣는 방식도 사용할 수 있습니다.
+```
+POST /token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
+&client_id=s6BhdRkqt3&client_secret=7Fjfp0ZBr1KtDRbnfVdmIw
+```
+
+#### 클라이언트 인증
+- 기밀 클라이언트는 인증서버에서 요구하는 클라이언트 인증을 설정한다.
+- 기밀 클라이언트는 일반적으로 암호(Client Password) 혹은 Public/Private키쌍을 통해 클라이언트 인증을 진행합니다.
+
+#### 클라이언트 등록 예시
+![OAuth2 클라이언트 등록 예시](/files/posts/oauth/client-register-example.png)
+> 예시화면
+> 인증서버는 클라이언트가 실제로 존재하는지 알 필요없이 사람에 의해 등록된다. (간접적 등록)
+
+## OAuth 2.0의 권한 획득 방법
+`OAuth 2.0`에서 권한 획득 방법을 `Authorization Grant`라고 명명하고 있습니다.
+`Authorization Grant`는 굉장히 유연한 방식으로 위 프로토콜만 구현하면 (때로 일부분이 생략되더라도) 권한 획득 방법 중 한가지로 사용할 수 있습니다.
+
+[RFC 6749 - The OAuth 2.0 Authorization Framework](https://tools.ietf.org/html/rfc6749) 문서에서는 4가지의 `Authorization Grant`를 정의하고 있습니다.
+- `Authorization Code`
+- `Implicit`
+- `Resource Owner Password Credentials`
+- `Client Credentials`
+
+#### Authorization Code
+`Authorization Code`는 권한허가 시 code를 발급하고 클라이언트는 그 코드를 얻어 인증서버에 액세스 토큰을 요청하는 방식입니다.
+`Facebook 로그인` 혹은 `Google 로그인` 등이 `Authorization Code` 방식에 속합니다.
+
+![OAuth2 Authorization Code](/files/posts/oauth/authorization-code.png)
+```
+-> Request
+GET /authorize?response_type=code&client_id=idid&redirect_uri=https://server.example.com/oauth2/callback&scope=user_info HTTP/1.1
+Host: server.example.com
+
+-> Response
+HTTP/1.1 302 Found
+Location: https://server.example.com/oauth2/callback?code=SplxlOBeZQQYbYS6WxSbIA
+```
+```
+POST /token HTTP/1.1
+Host: server.example.com
+Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code=codecode&client_id=idid&redirect_uri=https://server.example.com/oauth2/callback
+```
+> `Authorization Code` 방식의 경우 2번의 요청을 보내야 합니다.
+> `/token` 요청 시 보내는 `redirect_uri`는 코드 발급 시 전송한 값인지 확인하는 용도입니다.
+
+- 코드는 리소스 소유자와 클라이언트 사이에서 권한허가를 증명하는 역할을 하며 인증서버를 통해 발급받는다.
+	- 클라이언트는 코드를 전달받을 뿐 리소스 소유자가 허가한 권한의 종류는 알 수 없다.
+- 인증서버에서 사용자 에이전트(웹브라우저 등)를 통하지 않고 바로 클라이언트로 액세스 토큰을 전달할 수 있는 등 보안 혜택이 존재한다.
+- 기밀 클라이언트의 최적화되어있다.
+
+#### Implicit
+`Implicit`는 브라우저에서 실행되는 클라이언트에 최적화되어 있습니다.
+제가 알기로는 `Implicit` 방식은 Facebook JS용 SDK에서만 사용됩니다.
+
+![OAuth2 Implicit](/files/posts/oauth/implicit.png)
+```
+-> Request
+GET /authorize?response_type=token&client_id=idid&redirect_uri=https://server.example.com/start&scope=user_info HTTP/1.1
+Host: server.example.com
+
+-> Response
+HTTP/1.1 302 Found
+Location: https://server.example.com/start/?access_token=SplxlOBeZQQYbYS6WxSbIA
+```
+> 302 Location에 코드가 아닌 액세스 토큰이 들어있습니다.
+ 
+- 리소스 소유자가 권한을 허가하면 클라이언트는 코드가 아닌 액세스 토큰을 얻는다.
+	- `Authorization Code`와 전체적인 흐름이 비슷하나 액세스 토크은 바로 받는다는 점에서 단순화되었다.
+	- `Authorization Code`와 비교했을 때 보안성과 효율성(요청횟수가 적음)의 트레이드 오프관계다.
+- 브라우저에 최적화되어있는 클라이언트의 특성상 액세스 토큰이 다른 응용 프로그램에 노출될 가능성이 있다.
+	- 액세스 토큰이 URL에 노출되고, JS를 통해 파싱된다.
+
+#### Resource Owner Password Credentials
+다른 인증 수단을 쓸 수 없을 때만 사용하길 권장하는 방식입니다.
+제가 상상해 봤을 때 `OAuth 2.0`으로 완전히 넘어가기 전 과도기에 사용하는 정도로 생각됩니다.
+조금 더 상상해 보자면 인증과 관련된 UX를 위해 퍼스트 파티에서만 사용할 수 있을 것 같습니다.
+
+![OAuth2 Resource Owner Password Credentials](/files/posts/oauth/resource-owner-password-credentials.png)
+```
+POST /token HTTP/1.1
+Host: server.example.com
+Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&user_name=junglekim&password=junglekim&scope=user_info
+```
+
+- 리소스 소유자가 ID와 Password를 클라이언트에 입력하기 때문에 신뢰할 수 있을 때만 사용할 수 있다.
+	- 퍼스트 파티 앱 혹은 웹 수준의 신뢰도
+
+#### Client Credentials
+권한의 범위가 클라이언트의 제어하에 있는 리소스거나 인증서버와 함께 배치된 라소스인 경우 사용 가능합니다.
+즉, Server to Server로 서로를 인증하기 위한 수단으로 사용하기 적합합니다.
+
+![OAuth2 Client Credentials](/files/posts/oauth/client-credentials.png)
+```
+POST /token HTTP/1.1
+Host: server.example.com
+Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&scope=content
+```
+
+## 액세스 토큰 갱신하기
+`OAuth 2.0`에서는 액세스 토큰의 유효주기를 짧게 유지하길 권장합니다.
+액세스 토큰의 유효주기를 짧게 유지할 경우 사용자는 반복적인 로그인 혹은 인증을 경험할 수도 있습니다.
+그렇기 때문에 `OAuth 2.0`에서는 액세스 토큰 만료 시 재인증을 받지 않고도 새로운 액세스 토큰을 발급받을 수 있는 수단을 제공합니다.
+이 수단은 `Authorization Grant`의 하나처럼 구현하여 제공하고 이름은 `Refresh Token`으로 부릅니다.
+
+####  Refresh Token
+![OAuth2 Refresh Token](/files/posts/oauth/refresh-token.png)
+```
+POST /token HTTP/1.1
+Host: server.example.com
+Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
+```
+> `Authorization Grant`처럼 구현하여 처리하기에 토큰 갱신 시 `grant_type=refresh_token`을 넘기는 것을 확인할 수 있습니다.
+
+- 인증서버에서 리프래시 토큰을 제공하는 경우만 사용할 수 있다.
+	- 리프래시 토큰의 제공은 인증서버의 선택으로 제공하지 않는 경우 `Refresh Token`을 사용할 수 없다.
+
+---
+## 참고자료
+- [RFC 6749 - The OAuth 2.0 Authorization Framework](https://tools.ietf.org/html/rfc6749)
+- [Which OAuth 2.0 grant should I use? - OAuth 2.0 Server](https://oauth2.thephpleague.com/authorization-server/which-grant/)
+
+
+**오탈자, 잘못된 내용 등 모든 피드백을 환영합니다.**
