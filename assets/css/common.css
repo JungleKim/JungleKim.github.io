@@ -22,6 +22,18 @@ pre, code, tt, kbd {
     font-weight: 300;
 }
 
+code.highlighter-rouge {
+    padding: 3px;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin: 0;
+    font-size: 85%;
+    border-radius: 3px;
+
+    color: #f8f8f2;
+    background-color: #49483e;
+}
+
 b, strong, optgroup {
     font-weight: 400;
 }
