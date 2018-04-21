@@ -820,7 +820,7 @@ body.tag-template #navbar {
 
 #post-content blockquote {
     margin: 28px 0;
-    padding: 28px;
+    padding: 5px 20px;
     border-left: 3px solid #f3cf00;
 }
 
