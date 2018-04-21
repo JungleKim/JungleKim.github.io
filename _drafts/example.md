@@ -3,6 +3,7 @@ layout: post
 author: junglekim
 date: 2017-12-09
 tags: [test]
+image: /files/covers/example.png
 ---
 # 이것은 제목.
 
