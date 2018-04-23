@@ -1,5 +1,5 @@
 ---
 layout: tag
-name: RFC
+name: rfc
 title: RFC문서
 ---

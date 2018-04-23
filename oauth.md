@@ -1,5 +1,5 @@
 ---
 layout: tag
-name: OAuth
+name: oauth
 title: OAuth2
 ---
